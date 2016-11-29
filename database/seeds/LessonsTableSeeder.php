@@ -1,8 +1,9 @@
 <?php
 
 use Illuminate\Database\Seeder;
+use Laracasts\TestDummy\Factory as TestDummy;
 
-class DatabaseSeeder extends Seeder
+class LessonsTableSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -11,6 +12,6 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
-        $this->call('LessonsTableSeeder');
+        TestDummy::times(20)->create('App\Lesson');
     }
 }

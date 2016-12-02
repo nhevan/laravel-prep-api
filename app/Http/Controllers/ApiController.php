@@ -3,15 +3,19 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Http\Response as IlluminateResponse;
 use Illuminate\Support\Facades\Validator;
+
 
 class ApiController extends Controller
 {
     /**
      * describes the response status code
-     * @var integer
+     * @var integer 
+     * defaults to HTTP_OK
      */
-    protected $statusCode = 200;
+    protected $statusCode = IlluminateResponse::HTTP_OK;
+    
     /**
      * array containing all the validation rules
      * @var array
@@ -27,7 +31,7 @@ class ApiController extends Controller
      */
     public function responseNotFound($message="Could not locate the specified resource")
     {
-        return $this->setStatusCode(404)->respondWithError($message);
+        return $this->setStatusCode(IlluminateResponse::HTTP_NOT_FOUND)->respondWithError($message);
     }
 
     /**
@@ -37,7 +41,7 @@ class ApiController extends Controller
      */
     public function responseInternalError($message="Internal Error !")
     {
-        return $this->setStatusCode(500)->respondWithError($message);
+        return $this->setStatusCode(IlluminateResponse::HTTP_INTERNAL_SERVER_ERROR)->respondWithError($message);
     }
     /**
      * [respond description]
@@ -51,7 +55,7 @@ class ApiController extends Controller
     }
     public function respondCreated($message="Successfully created!")
     {
-        return $this->setStatusCode(201)
+        return $this->setStatusCode(IlluminateResponse::HTTP_CREATED)
                     ->respond([
                         'success'=>[
                             'message' => $message,
@@ -77,7 +81,7 @@ class ApiController extends Controller
 
     public function responseValidationError()
     {
-    	return $this->setStatusCode(422)->respondWithError($this->getValidationErrors());
+    	return $this->setStatusCode(IlluminateResponse::HTTP_UNPROCESSABLE_ENTITY)->respondWithError($this->getValidationErrors());
     }
 
     /**

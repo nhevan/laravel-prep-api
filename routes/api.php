@@ -17,3 +17,5 @@ Route::get('/user', function (Request $request) {
     return $request->user();
 })->middleware('auth:api');
 Route::resource('lessons','LessonsController');
+Route::resource('tags','TagsController', ['only'=>['index', 'store']]);
+Route::get('/lessons/{id}/tags', 'TagsController@index');

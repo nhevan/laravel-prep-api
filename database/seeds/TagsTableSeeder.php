@@ -12,6 +12,6 @@ class TagsTableSeeder extends Seeder
      */
     public function run()
     {
-        TestDummy::times(20)->create('App\Tag');
+        TestDummy::times(10)->create('App\Tag');
     }
 }

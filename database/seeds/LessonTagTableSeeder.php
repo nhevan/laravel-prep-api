@@ -1,7 +1,6 @@
 <?php
 
 use Illuminate\Database\Seeder;
-use Laracasts\TestDummy\Factory as TestDummy;
 
 class LessonTagTableSeeder extends Seeder
 {
@@ -12,6 +11,6 @@ class LessonTagTableSeeder extends Seeder
      */
     public function run()
     {
-        TestDummy::times(20)->create('App\LessonTag');
+        factory(App\LessonTag::class, 20)->create();
     }
 }

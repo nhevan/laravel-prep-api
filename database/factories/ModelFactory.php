@@ -1,5 +1,8 @@
 <?php
 
+use App\Tag;
+use App\Lesson;
+
 /*
 |--------------------------------------------------------------------------
 | Model Factories
@@ -11,14 +14,24 @@
 |
 */
 
-/** @var \Illuminate\Database\Eloquent\Factory $factory */
-$factory->define(App\User::class, function (Faker\Generator $faker) {
-    static $password;
-
+$factory->define(App\Lesson::class, function (Faker\Generator $faker) {
     return [
-        'name' => $faker->name,
-        'email' => $faker->unique()->safeEmail,
-        'password' => $password ?: $password = bcrypt('secret'),
-        'remember_token' => str_random(10),
+        'title' => $faker->sentence(3),
+	    'body' => $faker->paragraph(3)
     ];
+});
+
+$factory->define(App\Tag::class, function (Faker\Generator $faker) {
+    return [
+        'name' => $faker->word()
+    ];
+});
+
+$factory->define(App\LessonTag::class, function (Faker\Generator $faker) {
+    $lessonIds = Lesson::pluck('id');
+	$tagIds = Tag::pluck('id');
+	return [
+	    'lesson_id' => $faker->randomElement($lessonIds->toArray()),
+	    'tag_id' => $faker->randomElement($tagIds->toArray())
+	];
 });

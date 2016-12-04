@@ -23,7 +23,7 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
     	$this->clearDb();
-    	
+
         $this->call('LessonsTableSeeder');
         $this->call('TagsTableSeeder');
         $this->call('LessonTagTableSeeder');

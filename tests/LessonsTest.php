@@ -1,6 +1,5 @@
 <?php 
 
-use Laracasts\TestDummy\Factory as TestDummy;
 /**
 * Lessons Test class
 */
@@ -10,7 +9,7 @@ class LessonsTest extends ApiTester
 	public function it_fetches_lessons()
 	{
 		//arange
-		TestDummy::times(20)->create('App\Lesson');
+		factory(App\Lesson::class, 20)->create();
 
 		//act
 		$this->getJson('api/lessons');
@@ -22,8 +21,8 @@ class LessonsTest extends ApiTester
 	public function it_also_fetches_a_single_lesson()
 	{
 		//arange
-	    TestDummy::create('App\Lesson');
-
+	    factory(App\Lesson::class)->create();
+	    
 	    //act
 	    $lesson = $this->getData('api/lessons/1');
 
@@ -41,6 +40,24 @@ class LessonsTest extends ApiTester
 	
 	    //assert
 	    $this->assertResponseStatus(404);
+	}
+
+	/** @test **/
+	public function it_creates_a_new_lesson_given_valid_parameters()
+	{
+		//arrange
+		
+		// $l = factory('App\Lesson')->make();
+		// var_dump($l);
+		// exit();
+
+	    // $this->getData('api/lessons', 'POST')
+	
+	    //act
+		
+	
+	    //assert
+	    
 	}
 }
 ?>

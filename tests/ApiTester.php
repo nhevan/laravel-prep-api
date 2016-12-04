@@ -1,7 +1,6 @@
 <?php
 
 use Faker\Factory as Faker;
-use Laracasts\TestDummy\Factory as TestDummy;
 use Illuminate\Foundation\Testing\WithoutMiddleware;
 use Illuminate\Foundation\Testing\DatabaseMigrations;
 use Illuminate\Foundation\Testing\DatabaseTransactions;
@@ -25,9 +24,9 @@ class ApiTester extends TestCase
      * @param  string $uri example : 'api/lessons/1'
      * @return object 
      */
-    public function getData($uri)
+    public function getData($uri, $method = 'GET')
     {
-        return json_decode($this->call('GET', $uri)->getContent());
+        return json_decode($this->call($method, $uri)->getContent());
     }
 
     public function assertObjectHasAttributes()

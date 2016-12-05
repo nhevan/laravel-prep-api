@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Http\Response as IlluminateResponse;
+use Acme\Transformers\Transformer;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Contracts\Pagination\Paginator;
+use Illuminate\Http\Response as IlluminateResponse;
 
 
 class ApiController extends Controller
@@ -44,10 +46,10 @@ class ApiController extends Controller
         return $this->setStatusCode(IlluminateResponse::HTTP_INTERNAL_SERVER_ERROR)->respondWithError($message);
     }
     /**
-     * [respond description]
-     * @param  [type] $data    [description]
+     * 
+     * @param  array $data    [description]
      * @param  array  $headers [description]
-     * @return [type]          [description]
+     * @return json          
      */
     public function respond($data, $headers= [])
     {
@@ -175,5 +177,20 @@ class ApiController extends Controller
         echo "<pre>";
         var_dump($value);
         echo "</pre>";
+    }
+
+    /**
+     * responses a pagtinated set of data with pagination meta data
+     * @param  Paginator $model       array of objects of any model
+     * @param  Transformer $transformer Transforms a model in a predefined structure
+     * @return json
+     */
+    public function respondWithPagination(Paginator $model, Transformer $transformer)
+    {
+        $model_array = $model->toArray();
+        return $this->respond([
+            'data'=>$transformer->transformCollection(array_pop($model_array)),
+            'pagination' => $model_array
+        ]);
     }
 }

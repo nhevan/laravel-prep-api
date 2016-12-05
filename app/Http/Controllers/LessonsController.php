@@ -26,13 +26,12 @@ class LessonsController extends ApiController
      * lists all lessons
      * @return response lessons array
      */
-    public function index()
+    public function index(Request $request)
     {
-        $lessons = $this->lesson->all();
-
-        return $this->respond([
-            'data'=>$this->lessonTransformer->transformCollection($lessons->toArray())
-        ]);
+        $limit = (int)$request->limit ?: 5;
+        $lessons = $this->lesson->paginate($limit);
+        
+        return $this->respondWithPagination($lessons, $this->lessonTransformer);
     }
 
     /**

@@ -9,7 +9,7 @@ class LessonsTest extends ApiTester
 	public function it_fetches_lessons()
 	{
 		//arange
-		factory(App\Lesson::class, 20)->create();
+		$this->times(20)->create('App\Lesson');
 
 		//act
 		$this->getJson('api/lessons');
@@ -21,8 +21,8 @@ class LessonsTest extends ApiTester
 	public function it_also_fetches_a_single_lesson()
 	{
 		//arange
-	    factory(App\Lesson::class)->create();
-	    
+	    $this->create('App\Lesson');
+
 	    //act
 	    $lesson = $this->getData('api/lessons/1');
 
@@ -46,18 +46,26 @@ class LessonsTest extends ApiTester
 	public function it_creates_a_new_lesson_given_valid_parameters()
 	{
 		//arrange
-		
-		// $l = factory('App\Lesson')->make();
-		// var_dump($l);
-		// exit();
-
-	    // $this->getData('api/lessons', 'POST')
+		$lesson = $this->make('App\Lesson');
 	
 	    //act
-		
+		$this->getData('api/lessons', 'POST', $lesson->toArray());
 	
 	    //assert
-	    
+	    $this->assertResponseStatus(201);
+	}
+
+	/** @test **/
+	public function it_throws_422_if_validation_fails()
+	{
+		//arrange
+	    // $lesson = $this->make('App\Lesson');
+	
+	    //act
+		$this->getData('api/lessons', 'POST');
+	
+	    //assert
+	    $this->assertResponseStatus(422);
 	}
 }
 ?>

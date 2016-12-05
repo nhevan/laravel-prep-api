@@ -67,5 +67,64 @@ class LessonsTest extends ApiTester
 	    //assert
 	    $this->assertResponseStatus(422);
 	}
+
+	/** @test **/
+	public function it_returns_pagination_metadata()
+	{
+		//arange
+		$this->times(20)->create('App\Lesson');
+
+		//act
+		$lessons = $this->getData('api/lessons');
+		
+		//assert
+		$this->assertObjectHasAttributes($lessons,  'pagination');
+	    
+	}
+
+	/** @test **/
+	public function by_default_it_returns_5_paginated_data()
+	{
+		//arrange
+	    $this->times(20)->create('App\Lesson');
+	
+	    //act
+		$lessons = $this->getData('api/lessons');
+	
+	    //assert
+	    $this->assertObjectHasAttributes($lessons,  'pagination');
+	    $this->assertCount(5, $lessons->data);
+	    
+	}
+
+	/** @test **/
+	public function it_returns_x_no_of_lessons_when_limit_is_x()
+	{
+		//arrange
+		$limit = 3;
+	    $this->times(20)->create('App\Lesson');
+	
+	    //act
+		$lessons = $this->getData('api/lessons', 'GET', ['limit' => $limit]);
+	
+	    //assert
+	    $this->assertObjectHasAttributes($lessons,  'pagination');
+	    $this->assertCount($limit, $lessons->data);
+	}
+
+	/** @test **/
+	public function it_returns_default_limit_no_when_limit_value_is_more_than_20()
+	{
+		//arrange
+	    $limit = 25;
+	    $this->times(20)->create('App\Lesson');
+	
+	    //act
+		$lessons = $this->getData('api/lessons', 'GET', ['limit' => $limit]);
+	
+	    //assert
+	    $this->assertObjectHasAttributes($lessons,  'pagination');
+	    $this->assertCount(5, $lessons->data);
+	}
 }
 ?>

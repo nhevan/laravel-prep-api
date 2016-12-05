@@ -28,7 +28,8 @@ class LessonsController extends ApiController
      */
     public function index(Request $request)
     {
-        $limit = (int)$request->limit ?: 5;
+        $limit = 5;
+        if((int)$request->limit <= 20) $limit = (int)$request->limit ?: 5;
         $lessons = $this->lesson->paginate($limit);
         
         return $this->respondWithPagination($lessons, $this->lessonTransformer);
